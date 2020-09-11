@@ -94,7 +94,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SleepSetForm";
-            this.Text = "Form1";
+            this.Text = "Hibernate timer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SleepSetForm_FormClosing);
             this.Load += new System.EventHandler(this.SleepSetForm_Load);
             this.ResumeLayout(false);

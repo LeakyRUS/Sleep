@@ -17,7 +17,7 @@ namespace Sleep
         private System.Threading.Timer hibernateTimer;
         private System.Threading.Timer prepareTimer;
 
-        private TimeSpan timerSpan;
+        private TimeSpan? timerSpan;
 
         public SleepSetForm()
         {
@@ -40,7 +40,7 @@ namespace Sleep
             }
             else
             {
-                timerSpan = TimeSpan.MaxValue;
+                timerSpan = null;
                 label2.Text = "Неверный формат времени";
             }
         }
@@ -85,7 +85,7 @@ namespace Sleep
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (timerSpan != null)
+            if (timerSpan.HasValue)
             {
                 SetupTimer();
             }
@@ -105,14 +105,11 @@ namespace Sleep
             this.notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
 
             this.notifyIcon1.ShowBalloonTip(3000);
+            hibernateTimer = new System.Threading.Timer(OnHibernate, null, timerSpan.Value, TimeSpan.Zero);
 
-            //hibernateTimer = new System.Threading.Timer(OnHibernate, null, timerSpan, TimeSpan.Zero);
-            if(timerSpan != TimeSpan.MaxValue)
+            if(timerSpan?.TotalMinutes > 5d)
             {
-                if(timerSpan.TotalMinutes > 5d)
-                {
-                    prepareTimer = new System.Threading.Timer(MessageOnHibernate, null, timerSpan - TimeSpan.FromMinutes(5), TimeSpan.Zero);
-                }
+                prepareTimer = new System.Threading.Timer(MessageOnHibernate, null, timerSpan.Value - TimeSpan.FromMinutes(5), TimeSpan.Zero);
             }
         }
     }
